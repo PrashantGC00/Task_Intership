@@ -1,0 +1,26 @@
+# Ignore Node.js dependencies
+frontend/node_modules/
+frontend/.next/
+frontend/.turbo/
+frontend/build/
+
+# Ignore React build files
+frontend/dist/
+
+# Ignore environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.development
+frontend/.env.production
+
+# Ignore Visual Studio & .NET build files
+backend/bin/
+backend/obj/
+backend/.vs/
+
+# Ignore logs & system files
+logs/
+*.log
+yarn-error.log
+npm-debug.log
+.DS_Store
