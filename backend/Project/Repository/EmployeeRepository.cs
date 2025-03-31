@@ -6,7 +6,7 @@ using Project.Entities;
 
 namespace Project.Repository
 {
-    public class EmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly IDbConnection _dbConnection;
 

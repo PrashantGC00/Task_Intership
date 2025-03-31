@@ -10,9 +10,9 @@ namespace Project.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly EmployeeServices _employeeService;
+        private readonly IEmployeeServices _employeeService;
 
-        public EmployeeController(EmployeeServices employeeService)
+        public EmployeeController(IEmployeeServices employeeService)
         {
             _employeeService = employeeService;
         }

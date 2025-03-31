@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Tiv4c/P2iaTjQQHgNBQIlN5VgvdGKFHL0vpaHHpEfl9VSlMFijGNPjYMojGrcgDdBilr88mHA6qBWr4fNihvyQ==",
+  "dgSpecHash": "mjR+H+94S7+jAF9fKyc0tPEYGLUuACdNy0Kme4f0dXhqgW3alcgYR3sAJqvLPiXEHvG883hHFNoBFzEH1/M3Cw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Legion\\Desktop\\WebDEV\\backend\\Project\\Project.csproj",
+  "projectFilePath": "E:\\Project\\client\\backend\\Project\\Project.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Legion\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
     "C:\\Users\\Legion\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

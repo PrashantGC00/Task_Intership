@@ -5,7 +5,7 @@ using Project.Repository;
 
 namespace Project.Services
 {
-    public class EmployeeServices
+    public class EmployeeServices : IEmployeeServices
     {
         private readonly EmployeeRepository _employeeRepo;
 

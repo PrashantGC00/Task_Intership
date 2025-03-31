@@ -41,8 +41,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthentication();
 
-builder.Services.AddScoped<EmployeeRepository>();
-builder.Services.AddScoped<EmployeeServices>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
 
 var app = builder.Build();
 
