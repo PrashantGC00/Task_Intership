@@ -83,7 +83,7 @@ const Table = ({ employees }) => {
           {employees.map((employee) => (
             <div
               key={employee.id}
-              className="grid gap-4 p-4 border-b"
+              className="grid grid-cols-5 gap-4 p-4 border-b hover:bg-gray-50"
             >
               <div className="flex gap-5">
                 <button
@@ -99,10 +99,10 @@ const Table = ({ employees }) => {
                   <EditIcon />
                 </button>
               </div>
-              <div className="col-span-3">{employee.name}</div>
-              <div className="col-span-3 truncate">{employee.email}</div>
-              <div className="col-span-2">{employee.contact}</div>
-              <div className="col-span-2 text-center">
+              <div className="">{employee.name}</div>
+              <div className="">{employee.email}</div>
+              <div className="">{employee.contact}</div>
+              <div className="text-center">
                 <span
                   className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                     employee.status === "Active"
