@@ -43,6 +43,10 @@ builder.Services.AddAuthentication();
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
+builder.Services.AddScoped<IItemsRepository, ItemsRepository>();
+builder.Services.AddScoped<IItemsServices, ItemsServices>();
+builder.Services.AddScoped<IItemTrackingRepository, ItemTrackingRepository>();
+builder.Services.AddScoped<IItemTrackingServices, ItemTrackingServices>();
 
 var app = builder.Build();
 

@@ -1,16 +1,18 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import toast, { Toaster } from "react-hot-toast";
-import Modal from "@mui/material/Modal";
-import { Formik } from "formik";
 
-import { Popup } from './PopUp'
+import { Popup } from '../PopUps/PopUp'
+import { LoadingContext } from "../../Context/LoadingContextProvider";
 
 const Table = ({ employees }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedEmployee, setSelectedEmployee] = React.useState(null);
 
+  console.log("Employees:", employees);
+
+  const { toggleLoading } = useContext(LoadingContext)
 
   const handleOpen = (employee) => {
     setSelectedEmployee(employee);
@@ -31,6 +33,7 @@ const Table = ({ employees }) => {
 
   const handleDelete = async (id) => {
     try {
+      toggleLoading()
       const response = await fetch(
         `http://localhost:5000/api/employee/delete-employee/${id}`,
         {
@@ -49,42 +52,43 @@ const Table = ({ employees }) => {
       } else {
         toast.success(result.message || "Employee deleted successfully");
       }
-    } catch (error) {
+    } catch (err) {
       toast.error("An error occurred while deleting the employee");
-      console.error("Error deleting employee:", error);
+      console.error(err);
+    }finally{
+      toggleLoading()
     }
   };
 
   return (
-    <div className="flex justify-center items-start p-4 h-screen">
+    <div className="w-full flex justify-center items-start p-4 h-full">
       <Toaster />
       <div className="w-full max-w-6xl bg-white rounded-lg shadow-sm flex flex-col">
         <h1 className="text-2xl font-bold p-4 w-full text-center">
           Employee List
         </h1>
 
-        {/* Table Header */}
-        <div className="grid grid-cols-12 gap-4 p-4 border-b font-bold">
-          <div className="col-span-2"></div>
-          <div className="col-span-3">Name</div>
-          <div className="col-span-3">Email</div>
-          <div className="col-span-2">Contact</div>
-          <div className="col-span-2 text-center">Status</div>
+        <div className="grid grid-cols-5 gap-4 p-4 border-b font-bold">
+          <div className=""></div>
+          <div className="">Name</div>
+          <div className="">Email</div>
+          <div className="">Contact</div>
+          <div className="text-center">Status</div>
         </div>
 
         <div
           className="overflow-y-auto"
-          style={{ maxHeight: "calc(100vh - 200px)" }}
+          style={{ maxHeight: "calc(90vh - 200px)" }}
         >
           {employees.map((employee) => (
             <div
               key={employee.id}
-              className="grid grid-cols-12 gap-4 p-4 border-b hover:bg-gray-50"
+              className="grid gap-4 p-4 border-b"
             >
-              <div className="col-span-2 flex gap-5">
+              <div className="flex gap-5">
                 <button
                   onClick={() => handleDelete(employee.id)}
-                  className="bg-red-100 rounded-md px-2 p-1 text-red-800 hover:scale-110"
+                  className="bg-red-100 rounded-md px-2 py-1 text-red-800 hover:scale-110"
                 >
                   <DeleteOutlineIcon />
                 </button>
@@ -114,7 +118,6 @@ const Table = ({ employees }) => {
         </div>
       </div>
 
-      {/* Popup Component (Moved outside button) */}
       {selectedEmployee && (
         <Popup open={open} handleClose={handleClose} employee={selectedEmployee} />
       )}

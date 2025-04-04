@@ -4,6 +4,7 @@ namespace Project.DTO
 {
     public class EmployeeDTO
     {
+        public int Id { get; set; }
         public required string Name { get; set; }
 
         [RegularExpression("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")]

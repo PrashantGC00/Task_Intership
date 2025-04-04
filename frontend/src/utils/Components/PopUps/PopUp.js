@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import { useFormik } from "formik";
 import {
@@ -10,20 +10,25 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { EmployeeSchema } from "../Schemas/EmployeeSchema";
+import { EmployeeSchema } from "../../Schemas/EmployeeSchema";
 import toast, { Toaster } from "react-hot-toast";
+import { LoadingContext } from "../../Context/LoadingContextProvider";
 
 export const Popup = ({ open, handleClose, employee }) => {
   const [isChanged, setIsChanged] = useState(false);
 
+  const { loading, toggleLoading } = useContext(LoadingContext);
+
   const handleSubmit = async (values, actions) => {
     try {
+      toggleLoading();
       const response = await fetch(
         `http://localhost:5000/api/employee/update-employee/${employee.id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(values),
         }
@@ -41,7 +46,7 @@ export const Popup = ({ open, handleClose, employee }) => {
       toast.error("An error occurred while updating the employee");
       console.error("Error updating employee:", error);
     } finally {
-      actions.setSubmitting(false);
+      toggleLoading();
     }
   };
 
@@ -54,35 +59,7 @@ export const Popup = ({ open, handleClose, employee }) => {
     },
     enableReinitialize: true,
     validationSchema: EmployeeSchema,
-    onSubmit: async (values, actions) => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/employee/update-employee/${employee.id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            },
-            body: JSON.stringify(values),
-          }
-        );
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          toast.error(result.message || "Failed to update employee");
-        } else {
-          toast.success(result.message || "Employee updated successfully");
-          handleClose();
-        }
-      } catch (error) {
-        toast.error("An error occurred while updating the employee");
-        console.error("Error updating employee:", error);
-      } finally {
-        actions.setSubmitting(false);
-      }
-    },
+    onSubmit: handleSubmit,
   });
 
   useEffect(() => {
@@ -103,7 +80,7 @@ export const Popup = ({ open, handleClose, employee }) => {
     >
       <form
         onSubmit={formik.handleSubmit}
-        className="bg-white p-5 rounded-lg shadow-md flex flex-col gap-9 w-[400px] max-w-full h-auto"
+        className="bg-white p-4 rounded-lg flex flex-col gap-9 w-[400px] h-auto"
       >
         <Toaster />
         <h2 className="text-xl font-bold text-center">Edit Employee</h2>
@@ -183,7 +160,7 @@ export const Popup = ({ open, handleClose, employee }) => {
             color="primary"
             fullWidth
           >
-            {formik.isSubmitting ? <CircularProgress size={24} /> : "Update"}
+            {loading ? <CircularProgress size={24} /> : "Update"}
           </Button>
           <Button variant="outlined" onClick={handleClose} fullWidth>
             Close

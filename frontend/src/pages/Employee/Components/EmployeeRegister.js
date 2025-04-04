@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import {
   Button,
@@ -11,33 +11,41 @@ import {
 } from "@mui/material";
 import { EmployeeSchema } from "../../../utils/Schemas/EmployeeSchema";
 import toast, { Toaster } from "react-hot-toast";
+import { LoadingContext } from "../../../utils/Context/LoadingContextProvider";
 
-const handleSubmit = async (values, actions) => {
-  try {
-    const response = await fetch("http://localhost:5000/api/employee/register-employee", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(values)
-    });
 
-    const result = await response.json();
+const EmployeeRegister = () => {  
 
-    if (!response.ok) {  
-      toast.error(result.message || "Failed to register employee");
-      return;
+  const { toggleLoading } = useContext(LoadingContext)
+
+  const handleSubmit = async (values, actions) => {
+    try {
+      toggleLoading()
+      const response = await fetch("http://localhost:5000/api/employee/register-employee", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(values)
+      });
+  
+      const result = await response.json();
+  
+      if (!response.ok) {  
+        toast.error(result.message || "Failed to register employee");
+        return;
+      }
+      toast.success(result.message || "Employee registered successfully");
+      actions.resetForm();
+    } catch (err) {
+      toast.error("An error occurred while registering the employee");
+    }finally{
+      toggleLoading()
     }
-    toast.success(result.message || "Employee registered successfully");
-    actions.resetForm();
-  } catch (err) {
-    toast.error("An error occurred while registering the employee");
-  }
+  
+  };
 
-};
-
-const EmployeeRegister = () => {
   const formik = useFormik({
     initialValues: {
       Name: "",

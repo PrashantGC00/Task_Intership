@@ -7,9 +7,9 @@ namespace Project.Services
 {
     public class EmployeeServices : IEmployeeServices
     {
-        private readonly EmployeeRepository _employeeRepo;
+        private readonly IEmployeeRepository _employeeRepo;
 
-        public EmployeeServices(EmployeeRepository employeeRepo)
+        public EmployeeServices(IEmployeeRepository employeeRepo)
         {
             _employeeRepo = employeeRepo;
         }

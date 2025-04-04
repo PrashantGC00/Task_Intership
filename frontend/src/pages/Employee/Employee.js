@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import EmployeeRegister from './Components/EmployeeRegister'
 import EmployeeTable from './Components/EmployeeTable'
+import { LoadingContext } from '../../utils/Context/LoadingContextProvider'
 
 const Employee = () => {
 
   const [employees, setEmployees] = useState()
+  const { loading } = useContext(LoadingContext)
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -16,7 +18,6 @@ const Employee = () => {
             "Content-Type": "application/json",
           },
         });
-
         const result = await response.json();
 
         if (!response.ok) {
@@ -29,7 +30,7 @@ const Employee = () => {
     };
 
     fetchEmployees();
-  }, [employees]);
+  }, [loading]);
 
   return (
     <div className='w-[100%] h-[100vh] bg-primary-color flex'>

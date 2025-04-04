@@ -1,8 +1,5 @@
 
 import "./App.css";
-import { useFormik } from "formik";
-import { Button, CircularProgress, TextField } from "@mui/material";
-import { EmployeeSchema } from "./utils/Schemas/EmployeeSchema";
 import './Mui.css';
 import { BrowserRouter, Route, Routes, Navigate } from "react-router";
 import Employee from "./pages/Employee/Employee";

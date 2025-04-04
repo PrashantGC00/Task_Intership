@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.DTO;
+using Project.Entities;
 using Project.Services;
 
 namespace Project.Controllers
@@ -37,7 +38,6 @@ namespace Project.Controllers
             }
         }
 
-        [Authorize]
         [HttpPost]
         [Route("register-employee")]
         public IActionResult RegisterEmployee(EmployeeDTO employeeInfo)
@@ -66,10 +66,16 @@ namespace Project.Controllers
             {
                 var isRemoved = _employeeService.DeleteEmployee(id);
 
-                return Ok(new { message = "Emploee Removed" });
-            }catch (Exception ex)
+                if (!isRemoved)
+                {
+                    return BadRequest(new { message = "Failed to delete employee" });
+                }
+
+                return Ok(new { message = "Employee Removed" });
+            }
+            catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new { message = ex.Message });
             }
         }
 
@@ -77,19 +83,22 @@ namespace Project.Controllers
         [Route("update-employee/{id}")]
         public IActionResult UpdateEmployee(int id, [FromBody] EmployeeDTO employee)
         {
-            try{
+            try
+            {
                 var isUpdated = _employeeService.UpdateEmployee(id, employee);
 
                 if (!isUpdated)
                 {
                     return BadRequest(new { message = "Failed to update employee" });
                 }
-                return Ok(new { message = "Employee updated successfully" });
 
-            }catch (Exception ex)
+                return Ok(new { message = "Employee updated successfully" });
+            }
+            catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new { message = ex.Message });
             }
         }
+
     }
 }
